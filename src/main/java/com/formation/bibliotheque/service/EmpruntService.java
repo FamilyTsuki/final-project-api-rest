@@ -33,7 +33,7 @@ public class EmpruntService {
         emprunt.setDateEmprunt(LocalDate.now());
         emprunt.setDateRetourPrevue(LocalDate.now().plusDays(14));
         emprunt.setRendu(false);
-        //    modifierStock(emprunt.getLivreId(), -1);
+        //modifierStock(emprunt.getLivreId(), -1);
         return empruntRepository.save(emprunt);
     }
 
