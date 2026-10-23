@@ -24,13 +24,12 @@ public class AuteurMapper {
     /**
      * Convertit une entité JPA en DTO de réponse.
      */
-    public static ProduitResponse versResponse(Produit produit) {
-        return new ProduitResponse(
+    public static AuteurResponse versResponse(Auteur produit) {
+        return new AuteurResponse(
                 auteur.getId(),
                 auteur.getNom(),
-                auteur.getDescription(),
-                auteur.getPrix(),
-                auteur.getStock()
+                auteur.getPrenom(),
+                auteur.getNationalite(),
         );
     }
 }

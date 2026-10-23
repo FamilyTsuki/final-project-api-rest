@@ -2,7 +2,9 @@ package com.formation.bibliotheque.controller;
 
 import com.formation.bibliotheque.dto.AuteurRequest;
 import com.formation.bibliotheque.dto.AuteurResponse;
+import com.formation.bibliotheque.dto.LivreResponse;
 import com.formation.bibliotheque.mapper.AuteurMapper;
+import com.formation.bibliotheque.mapper.LivreMapper;
 import com.formation.bibliotheque.model.Auteur;
 import com.formation.bibliotheque.service.AuteurService;
 import jakarta.validation.Valid;
@@ -40,10 +42,10 @@ public class AuteurController {
     }
 
     @PutMapping("/{id}")
-    public AuteurResponse modifier(@PathVariable Long id, @Valid @RequestBody AuteurRequest request) {
+    public AuteurResponse mettreAJour(@PathVariable Long id, @Valid @RequestBody AuteurRequest request) {
         Auteur existant = trouver(id);
         AuteurMapper.mettreAJour(existant, request);
-        return AuteurMapper.versResponse(auteurService.modifier(existant));
+        return AuteurMapper.versResponse(auteurService.mettreAJour(existant));
     }
 
     @DeleteMapping("/{id}")
@@ -51,9 +53,15 @@ public class AuteurController {
     public void supprimer(@PathVariable Long id) {
         Auteur auteur = trouver(id);
         if (auteurService.possedeDesLivres(id)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Auteur lié à des livres"); // à adapter selon tes RM
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Auteur lié à des livres"); // RM3
         }
         auteurService.supprimer(auteur);
+    }
+
+    @GetMapping("/{id}/livres")
+    public PagedModel<LivreResponse> listerLivres(@PathVariable Long id, Pageable pageable) {
+        trouver(id);
+        return LivreMapper.versPage(auteurService.recupererLivres(id, pageable));
     }
 
     private Auteur trouver(Long id) {
