@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.formation.bibliotheque.dto.LivreRequest;
 import com.formation.bibliotheque.model.Livre;
 import com.formation.bibliotheque.repository.LivreRepository;
+import com.formation.bibliotheque.repository.AuteurRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,7 @@ public class LivreService {
     }
 
     public boolean auteurExiste(Long auteurId) {
-        return auteurRepository.findByAuteurId(auteurId);
+        return auteurRepository.existsById(auteurId);
     }
 
     public boolean isbnExiste(String isbn) {

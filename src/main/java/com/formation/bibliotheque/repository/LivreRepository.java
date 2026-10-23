@@ -23,4 +23,6 @@ public interface LivreRepository extends JpaRepository<Livre, Long> {
     boolean existsByIsbnAndIdNot(String isbn, Long idLivre); // vérifier si un autre livre a le même ISBN
 
     boolean existsByIsbn(String isbn); // vérifier si un livre avec cet ISBN existe
+
+    boolean existsByAuteurId(Long id);
 } 
