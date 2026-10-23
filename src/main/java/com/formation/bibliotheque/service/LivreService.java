@@ -108,9 +108,7 @@ public class LivreService {
     }
 
     if (request.getAuteurId() != null) {
-        livre.setAuteurId(request.getAuteurId());
-    }
-
+        livre.setAuteurId(request.getAuteurId());}
     return livreRepository.save(livre);
     }
 } 
