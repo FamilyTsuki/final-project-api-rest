@@ -29,11 +29,13 @@ public class EmpruntMapper {
     }
 
     private static boolean estEnRetard(Emprunt emprunt) {
-        if !Boolean.TRUE.equals(emprunt.getRendu()) &&
+        if (
+            !Boolean.TRUE.equals(emprunt.getRendu()) &&
             emprunt.getDateRetourPrevue() != null &&
-            LocalDate.now().isAfter(emprunt.getDateRetourPrevue())) {
+            LocalDate.now().isAfter(emprunt.getDateRetourPrevue())
+        ) {
             return true;
         }
         return false;
     }
-}   
+}
