@@ -7,7 +7,7 @@ import java.time.LocalDate;
         "id",
         "Nom",
         "Prenom",
-        "Nationalite",
+        "Nationalite"
 })
 public class AuteurResponse {
 
