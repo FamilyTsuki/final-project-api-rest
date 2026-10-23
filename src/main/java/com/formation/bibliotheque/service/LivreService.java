@@ -3,6 +3,7 @@ package com.formation.bibliotheque.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import com.formation.bibliotheque.dto.LivreRequest;
 import com.formation.bibliotheque.model.Livre;
 import com.formation.bibliotheque.repository.LivreRepository;
 
@@ -21,53 +22,95 @@ public class LivreService {
         this.auteurRepository = auteurRepository; 
     } 
 
-    Page<Livre> recupererTous(Pageable pageable) {
+    public Page<Livre> recupererTous(Pageable pageable) {
         return livreRepository.findAll(pageable);
     }
     
-    Optional<Livre> recupererParId(Long id) {
+    public Optional<Livre> recupererParId(Long id) {
         return livreRepository.findById(id);
     }
 
-    boolean existe(Long id) {
+    public boolean existe(Long id) {
         return livreRepository.existsById(id);
     }
 
-    boolean auteurExiste(Long auteurId) {
-        return auteurRepository.existsById(auteurId);
+    public boolean auteurExiste(Long auteurId) {
+        return auteurRepository.findByAuteurId(auteurId);
     }
 
-    boolean isbnExiste(String isbn) {
+    public boolean isbnExiste(String isbn) {
         return livreRepository.existsByIsbn(isbn);
     }
 
-    boolean isbnUtiliseParUnAutreLivre(String isbn, Long idLivre) {
+    public boolean isbnUtiliseParUnAutreLivre(String isbn, Long idLivre) {
         return livreRepository.existsByIsbnAndIdNot(isbn, idLivre);
     }
 
-    Livre creer(Livre livre) {
+    public Livre creer(Livre livre) {
         return livreRepository.save(livre);
     }
 
-    Livre mettreAJour(Livre livreExistant, Livre nouvellesValeurs) {
+    public Livre mettreAJour(Livre livreExistant, Livre nouvellesValeurs) {
         // Implémenter la mise à jour du livre
+        livreExistant.setTitre(nouvellesValeurs.getTitre());
+        livreExistant.setIsbn(nouvellesValeurs.getIsbn());
+        livreExistant.setPrix(nouvellesValeurs.getPrix());
+        livreExistant.setAnneePublication(nouvellesValeurs.getAnneePublication());
+        livreExistant.setStock(nouvellesValeurs.getStock());
+        livreExistant.setAuteurId(nouvellesValeurs.getAuteurId());
+        return livreRepository.save(livreExistant);
     }
 
-    void supprimer(Long id) {
+    public Livre remplacer(Long id, Livre livre) {
+        livre.setId(id);
+        return livreRepository.save(livre);
+    }
+
+    public void supprimer(Long id) {
         livreRepository.deleteById(id);
     }
 
-    Page<Livre> rechercherParTitre(String titre, Pageable pageable) {
-        return livreRepository.findByTitreContaining(titre, pageable);
+    public Page<Livre> rechercherParTitre(String titre, Pageable pageable) {
+        return livreRepository.findByTitreContainingIgnoreCase(titre, pageable);
     }
 
-    Page<Livre> recupererDisponibles(Pageable pageable) {
+    public Page<Livre> recupererDisponibles(Pageable pageable) {
         return livreRepository.findByStockGreaterThan(0, pageable);
     }
 
-    Livre ajouterStock(Livre livre, Integer quantite) {
+    public Livre ajouterStock(Livre livre, Integer quantite) {
         livre.setStock(livre.getStock() + quantite);
         return livreRepository.save(livre);
     }
-    // Écrivez ici les méthodes du tableau 
+
+    public Livre modifierPartiellement(Long id, LivreRequest request) {
+    Livre livre = livreRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Livre introuvable"));
+
+    if (request.getTitre() != null) {
+        livre.setTitre(request.getTitre());
+    }
+
+    if (request.getIsbn() != null) {
+        livre.setIsbn(request.getIsbn());
+    }
+
+    if (request.getPrix() != null) {
+        livre.setPrix(request.getPrix());
+    }
+
+    if (request.getAnneePublication() != null) {
+        livre.setAnneePublication(request.getAnneePublication());
+    }
+
+    if (request.getStock() != null) {
+        livre.setStock(request.getStock());
+    }
+
+    if (request.getAuteurId() != null) {
+        livre.setAuteurId(request.getAuteurId());
+    }
+
+    return livreRepository.save(livre);
+    }
 } 

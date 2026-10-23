@@ -14,5 +14,13 @@ public interface LivreRepository extends JpaRepository<Livre, Long> {
   
     Page<Livre> findByTitreContainingIgnoreCase(String titre, Pageable pageable); // titre contenant le texte 
   
-    Page<Livre> findByStockGreaterThan(Integer stock, Pageable pageable);       // stock strictement supérieur 
+    Page<Livre> findByStockGreaterThan(Integer stock, Pageable pageable);       // stock strictement supérieur
+
+    Page<Livre> findByStockLessThanEqual(Integer stock, Pageable pageable);      // stock inférieur ou égal
+
+    Page<Livre> findByStockEquals(Integer stock, Pageable pageable);              // stock égal à 0
+
+    boolean existsByIsbnAndIdNot(String isbn, Long idLivre); // vérifier si un autre livre a le même ISBN
+
+    boolean existsByIsbn(String isbn); // vérifier si un livre avec cet ISBN existe
 } 

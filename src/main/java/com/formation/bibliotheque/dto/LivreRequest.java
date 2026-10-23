@@ -1,5 +1,4 @@
 package com.formation.bibliotheque.dto;
-
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 
@@ -36,10 +35,11 @@ public class LivreRequest {
     public Integer getAnneePublication() { return anneePublication;}
     public void setAnneePublication(Integer anneePublication) { this.anneePublication = anneePublication; }
 
-
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
  
     public Long getAuteurId() { return auteurId; }
     public void setAuteurId(Long auteurId) { this.auteurId = auteurId; }
+
+
 }
