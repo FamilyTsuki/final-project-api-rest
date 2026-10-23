@@ -20,7 +20,7 @@ public class AuteurResponse {
             Long id,
             String nom,
             String prenom,
-            String nationalite,
+            String nationalite
     ) {
         this.id = id;
         this.nom = nom;
