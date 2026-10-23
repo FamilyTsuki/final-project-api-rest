@@ -44,7 +44,9 @@ public class AuteurController {
     @PutMapping("/{id}")
     public AuteurResponse mettreAJour(@PathVariable Long id, @Valid @RequestBody AuteurRequest request) {
         Auteur existant = trouver(id);
-        AuteurMapper.mettreAJour(existant, request);
+        existant.setNom(request.getNom());
+        existant.setPrenom(request.getPrenom());
+        existant.setNationalite(request.getNationalite());
         return AuteurMapper.versResponse(auteurService.mettreAJour(existant));
     }
 
