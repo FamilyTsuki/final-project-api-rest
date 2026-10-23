@@ -39,4 +39,8 @@ public class AuteurResponse {
     public String getNationalite() {
         return nationalite;
     }
+
+    public String getPrenom() {
+        return prenom;
+    }
 }
