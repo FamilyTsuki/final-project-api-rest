@@ -25,6 +25,14 @@ public class EmpruntService {
         return empruntRepository.findAll(pageable);
     }
 
+    public Page<Emprunt> recupererEnCours(Pageable pageable) {
+        return empruntRepository.findByRenduFalse(pageable);
+    }
+
+    public Page<Emprunt> recupererEnRetard(Pageable pageable) {
+        return empruntRepository.findByRenduFalseAndDateRetourPrevueBefore(LocalDate.now(), pageable);
+    }
+
     public Optional<Emprunt> recupererParId(Long id) {
         return empruntRepository.findById(id);
     }

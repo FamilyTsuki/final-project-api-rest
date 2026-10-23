@@ -4,6 +4,8 @@ import com.formation.bibliotheque.dto.EmpruntRequest;
 import com.formation.bibliotheque.dto.EmpruntResponse;
 import com.formation.bibliotheque.model.Emprunt;
 import java.time.LocalDate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 
 public class EmpruntMapper {
 
@@ -26,6 +28,12 @@ public class EmpruntMapper {
             emprunt.getRendu(),
             estEnRetard(emprunt)
         );
+    }
+
+    public static PagedModel<EmpruntResponse> versPage(Page<Emprunt> page) {
+        Page<EmpruntResponse> pageDeResponses = page.map(emprunt -> versResponse(emprunt));
+
+        return new PagedModel<>(pageDeResponses);
     }
 
     private static boolean estEnRetard(Emprunt emprunt) {
