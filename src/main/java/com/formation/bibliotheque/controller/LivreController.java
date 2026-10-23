@@ -5,15 +5,15 @@ import com.formation.bibliotheque.dto.LivreResponse;
 import com.formation.bibliotheque.mapper.LivreMapper;
 import com.formation.bibliotheque.model.Livre;
 import com.formation.bibliotheque.service.LivreService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+
+import jakarta.validation.Valid;
+
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/v1/livres")
@@ -33,11 +33,11 @@ public class LivreController {
     @GetMapping("/{id}")
     public LivreResponse obtenirParId(@PathVariable Long id) {
         return LivreMapper.versResponse(livreService.recupererParId(id)
-        .orElseThrow(() -> new RuntimeException("Livre introuvable")));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Livre introuvable")));
     }
 
     @PostMapping
-    public ResponseEntity<LivreResponse> creer(@RequestBody LivreRequest request) {
+    public ResponseEntity<LivreResponse> creer(@Valid @RequestBody LivreRequest request) {
         Livre livre = livreService.creer(LivreMapper.versEntite(request));
         return ResponseEntity
             .status(201)
@@ -47,16 +47,24 @@ public class LivreController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LivreResponse> remplacer(
-            @PathVariable Long id, @RequestBody LivreRequest request) {
+            @PathVariable Long id, @Valid @RequestBody LivreRequest request) {
         Livre livre = livreService.remplacer(id, LivreMapper.versEntite(request));
         return ResponseEntity.ok(LivreMapper.versResponse(livre));
+        // rechercher le livre ;
+        // retourner 404 s’il n’existe pas ;
+        // remplacer ses champs ;
+        // sauvegarder l’entité existante.
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<LivreResponse> modifierPartiellement(
-            @PathVariable Long id, @RequestBody LivreRequest request) {
+            @PathVariable Long id, @Valid @RequestBody LivreRequest request) {
         Livre livre = livreService.modifierPartiellement(id, request);
         return ResponseEntity.ok(LivreMapper.versResponse(livre));
+        // valider les valeurs fournies ;
+        // refuser un stock négatif ;
+        // vérifier les contraintes d’unicité de l’ISBN ;
+        // retourner proprement 404 si l’identifiant n’existe pas.
     }
 
     @DeleteMapping("/{id}")

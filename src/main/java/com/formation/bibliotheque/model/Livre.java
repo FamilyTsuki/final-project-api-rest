@@ -5,7 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank; 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size; 
 
 
 @Entity 
@@ -16,19 +20,24 @@ public class Livre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Le titre du livre est obligatoire") 
+    @NotBlank(message = "Le titre du livre est obligatoire")
+    @Size (max = 255, message = "Le titre du livre ne peut pas dépasser 255 caractères")
     private String titre;
 
     @Column(nullable = false, unique = true)
+    @Size (max = 13, message = "L'ISBN du livre ne peut pas dépasser 13 caractères")
+    @NotBlank(message = "L'ISBN du livre est obligatoire")
     private String isbn;
     
-    @NotBlank(message = "Le prix du livre est obligatoire") 
+    @NotNull(message = "Le prix du livre est obligatoire")
+    @Positive(message = "Le prix du livre doit être positif") 
     private Double prix;
 
-    @NotBlank(message = "L'année de publication du livre est obligatoire") 
+    @NotNull(message = "L'année de publication du livre est obligatoire")
     private Integer anneePublication;
 
-    @NotBlank(message = "La quantité en stock du livre est obligatoire") 
+    @NotNull(message = "La quantité en stock du livre est obligatoire")
+    @PositiveOrZero (message = "La quantité en stock du livre doit être positive ou nulle")
     private Integer stock;
 
     @NotBlank(message = "L'auteur du livre est obligatoire") 

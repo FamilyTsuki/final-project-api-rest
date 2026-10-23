@@ -2,13 +2,16 @@ package com.formation.bibliotheque.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.formation.bibliotheque.dto.LivreRequest;
 import com.formation.bibliotheque.model.Livre;
 import com.formation.bibliotheque.repository.LivreRepository;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable; 
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+
 import java.util.Optional; 
 
 @Service 
@@ -85,7 +88,7 @@ public class LivreService {
 
     public Livre modifierPartiellement(Long id, LivreRequest request) {
     Livre livre = livreRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Livre introuvable"));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Champs obligatoires manquants ou invalides"));
 
     if (request.getTitre() != null) {
         livre.setTitre(request.getTitre());
