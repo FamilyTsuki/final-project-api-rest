@@ -44,20 +44,18 @@ public class AuteurController {
     @PutMapping("/{id}")
     public AuteurResponse mettreAJour(@PathVariable Long id, @Valid @RequestBody AuteurRequest request) {
         Auteur existant = trouver(id);
-        existant.setNom(request.getNom());
-        existant.setPrenom(request.getPrenom());
-        existant.setNationalite(request.getNationalite());
-        return AuteurMapper.versResponse(auteurService.mettreAJour(existant));
+        Auteur misAJour = auteurService.mettreAJour(existant, AuteurMapper.versEntite(request));
+        return AuteurMapper.versResponse(misAJour);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void supprimer(@PathVariable Long id) {
-        Auteur auteur = trouver(id);
-        if (auteurService.possedeDesLivres(id)) {
+        trouver(id);
+        if (auteurService.aDesLivres(id)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Auteur lié à des livres"); // RM3
         }
-        auteurService.supprimer(auteur);
+        auteurService.supprimer(id);
     }
 
     @GetMapping("/{id}/livres")
