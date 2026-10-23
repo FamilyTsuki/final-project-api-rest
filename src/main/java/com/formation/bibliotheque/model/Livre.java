@@ -1,4 +1,5 @@
 package com.formation.bibliotheque.model;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +19,7 @@ public class Livre {
     @NotBlank(message = "Le titre du livre est obligatoire") 
     private String titre;
 
-    @NotBlank(message = "Le ISBN du livre est obligatoire") 
+    @Column(nullable = false, unique = true)
     private String isbn;
     
     @NotBlank(message = "Le prix du livre est obligatoire") 
