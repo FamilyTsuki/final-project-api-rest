@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuteurRepository extends JpaRepository<Auteur, Long> {
-
+    public long existsByAuteurId(long id) {}
 }

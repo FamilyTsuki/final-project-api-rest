@@ -16,7 +16,7 @@ public class AuteurResponse {
     private final String prenom;
     private final String nationalite;
 
-    public EmpruntResponse(
+    public AuteurResponse(
             Long id,
             String nom,
             String prenom,
