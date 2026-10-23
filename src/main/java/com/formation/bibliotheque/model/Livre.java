@@ -25,6 +25,7 @@ public class Livre {
     @NotBlank(message = "Le prix du livre est obligatoire") 
     private Double prix;
 
+    @NotBlank(message = "L'année de publication du livre est obligatoire") 
     private Integer anneePublication;
 
     @NotBlank(message = "La quantité en stock du livre est obligatoire") 
@@ -49,7 +50,7 @@ public class Livre {
     // Getters
     public Long getId(){ return id;}
     public String getTitre() { return titre;}
-    public String getISBN() { return isbn;}
+    public String getIsbn() { return isbn;}
     public Double getPrix() { return prix;}
     public Integer getAnneePublication() { return anneePublication;}
     public Integer getStock() { return stock;}
@@ -58,7 +59,7 @@ public class Livre {
     // Setters
     public void setId(Long id) { this.id = id;}
     public void setTitre(String titre) { this.titre = titre;}
-    public void setISBN(String isbn) { this.isbn = isbn;}
+    public void setIsbn(String isbn) { this.isbn = isbn;}
     public void setPrix(Double prix) { this.prix = prix;}
     public void setAnneePublication(Integer anneePublication) { this.anneePublication = anneePublication;}
     public void setStock(Integer stock) { this.stock = stock;}
